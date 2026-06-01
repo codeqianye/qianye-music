@@ -49,7 +49,6 @@ nbdist/
 rebel.xml
 
 application-my.yaml
-ruoyi-vue-pro.sql
 
 /qybasic-ui-app/unpackage/
 **/.DS_Store
