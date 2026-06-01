@@ -1,0 +1,3 @@
+cn.qiany.basic.framework.mq.redis.config.QybasicRedisMQProducerAutoConfiguration
+cn.qiany.basic.framework.mq.redis.config.QybasicRedisMQConsumerAutoConfiguration
+cn.qiany.basic.framework.mq.rabbitmq.config.QybasicRabbitMQAutoConfiguration

@@ -1,0 +1,7 @@
+cn.qiany.basic.framework.apilog.config.QybasicApiLogAutoConfiguration
+cn.qiany.basic.framework.jackson.config.QybasicJacksonAutoConfiguration
+cn.qiany.basic.framework.swagger.config.QybasicSwaggerAutoConfiguration
+cn.qiany.basic.framework.web.config.QybasicWebAutoConfiguration
+cn.qiany.basic.framework.xss.config.QybasicXssAutoConfiguration
+cn.qiany.basic.framework.banner.config.QybasicBannerAutoConfiguration
+cn.qiany.basic.framework.encrypt.config.QybasicApiEncryptAutoConfiguration

@@ -1,0 +1,2 @@
+cn.qiany.basic.framework.redis.config.QybasicRedisAutoConfiguration
+cn.qiany.basic.framework.redis.config.QybasicCacheAutoConfiguration

@@ -1,0 +1,3 @@
+cn.qiany.basic.framework.datasource.config.QybasicDataSourceAutoConfiguration
+cn.qiany.basic.framework.mybatis.config.QybasicMybatisAutoConfiguration
+cn.qiany.basic.framework.translate.config.QybasicTranslateAutoConfiguration

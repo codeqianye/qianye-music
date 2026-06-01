@@ -1,0 +1,3 @@
+cn.qiany.basic.framework.security.config.QybasicSecurityAutoConfiguration
+cn.qiany.basic.framework.security.config.QybasicWebSecurityConfigurerAdapter
+cn.qiany.basic.framework.operatelog.config.QybasicOperateLogConfiguration

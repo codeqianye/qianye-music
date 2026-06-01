@@ -1,0 +1,4 @@
+cn.qiany.basic.framework.idempotent.config.QybasicIdempotentConfiguration
+cn.qiany.basic.framework.lock4j.config.QybasicLock4jConfiguration
+cn.qiany.basic.framework.ratelimiter.config.QybasicRateLimiterConfiguration
+cn.qiany.basic.framework.signature.config.QybasicApiSignatureAutoConfiguration
