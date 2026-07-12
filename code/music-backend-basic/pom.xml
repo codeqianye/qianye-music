@@ -15,7 +15,8 @@
         <!-- 各种 module 拓展 -->
         <module>qybasic-module-system</module>
         <module>qybasic-module-infra</module>
-<!--        <module>qybasic-module-member</module>-->
+        <module>qybasic-module-search</module>
+        <!--        <module>qybasic-module-member</module>-->
 <!--        <module>qybasic-module-bpm</module>-->
 <!--        <module>qybasic-module-report</module>-->
 <!--        <module>qybasic-module-mp</module>-->
