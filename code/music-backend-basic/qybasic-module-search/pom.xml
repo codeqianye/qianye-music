@@ -31,6 +31,12 @@
             <artifactId>qybasic-spring-boot-starter-security</artifactId>
         </dependency>
 
+        <!-- 工具类相关 -->
+        <dependency>
+            <groupId>cn.qiany.boot</groupId>
+            <artifactId>qybasic-spring-boot-starter-excel</artifactId>
+        </dependency>
+
         <!-- DB 相关 -->
         <dependency>
             <groupId>cn.qiany.boot</groupId>
