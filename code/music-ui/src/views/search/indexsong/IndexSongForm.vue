@@ -67,7 +67,7 @@
   </Dialog>
 </template>
 <script setup lang="ts">
-import { IndexSongApi, IndexSong } from '@/api/search/song'
+import { IndexSongApi, IndexSong } from '@/api/search/indexsong'
 
 /** 歌曲 表单 */
 defineOptions({ name: 'IndexSongForm' })

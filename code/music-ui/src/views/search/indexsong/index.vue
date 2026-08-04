@@ -142,7 +142,7 @@
 <script setup lang="ts">
 import { isEmpty } from '@/utils/is'
 import download from '@/utils/download'
-import { IndexSongApi, IndexSong } from '@/api/search/song'
+import { IndexSongApi, IndexSong } from '@/api/search/indexsong'
 import IndexSongForm from './IndexSongForm.vue'
 
 /** 歌曲 列表 */
