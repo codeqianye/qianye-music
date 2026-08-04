@@ -5,7 +5,9 @@ import java.util.*;
 import cn.qiany.basic.framework.common.pojo.PageResult;
 import cn.qiany.basic.framework.mybatis.core.query.LambdaQueryWrapperX;
 import cn.qiany.basic.framework.mybatis.core.mapper.BaseMapperX;
+import cn.qiany.basic.module.search.common.AbstractGeneralSearchRequest;
 import cn.qiany.basic.module.search.dal.dataobject.song.IndexSongDO;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Mapper;
 import cn.qiany.basic.module.search.controller.admin.song.vo.*;
 
@@ -25,6 +27,22 @@ public interface IndexSongMapper extends BaseMapperX<IndexSongDO> {
                 .likeIfPresent(IndexSongDO::getAlbumNames, reqVO.getAlbumNames())
                 .eqIfPresent(IndexSongDO::getHot, reqVO.getHot())
                 .eqIfPresent(IndexSongDO::getIsCopyright, reqVO.getIsCopyright())
+                .orderByDesc(IndexSongDO::getId));
+    }
+
+    default List<IndexSongDO> selectList(AbstractGeneralSearchRequest request) {
+        String keyword = StringUtils.trim(request.getText());
+        if (StringUtils.isEmpty(keyword)) {
+            return Collections.emptyList();
+        }
+        return selectList(new LambdaQueryWrapperX<IndexSongDO>()
+                .and( wrapper -> wrapper
+                        .like(IndexSongDO::getName, keyword)
+                        .or()
+                        .like(IndexSongDO::getSingerNames, keyword)
+                        .or()
+                        .like(IndexSongDO::getAlbumNames, keyword))
+                .orderByDesc(IndexSongDO::getHot)
                 .orderByDesc(IndexSongDO::getId));
     }
 
