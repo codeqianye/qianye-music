@@ -8,9 +8,9 @@
       :inline="true"
       label-width="68px"
     >
-      <el-form-item label="歌曲名称" prop="name">
+      <el-form-item label="歌曲名称" prop="text">
         <el-input
-          v-model="queryParams.name"
+          v-model="queryParams.text"
           placeholder="请输入歌曲名称"
           clearable
           @keyup.enter="handleQuery"
@@ -36,12 +36,10 @@
       <el-table-column width="55" />
       <el-table-column label="外部歌曲业务ID" align="center" prop="orgId" />
       <el-table-column label="歌曲名称" align="center" prop="name" />
-      <el-table-column label="歌手业务ID" align="center" prop="singerIds" />
       <el-table-column label="歌手名称" align="center" prop="singerNames" />
       <el-table-column label="专辑名称" align="center" prop="albumNames" />
       <el-table-column label="歌曲热度" align="center" prop="hot" />
       <el-table-column label="版权状态" align="center" prop="isCopyright" />
-      <el-table-column label="版权到期日" align="center" prop="invalidate" />
     </el-table>
     <!-- 分页 -->
     <Pagination
@@ -68,7 +66,7 @@ const total = ref(0) // 列表的总页数
 const queryParams = reactive({
   pageNo: 1,
   pageSize: 10,
-  name: undefined,
+  text: undefined
 })
 const queryFormRef = ref() // 搜索的表单
 
