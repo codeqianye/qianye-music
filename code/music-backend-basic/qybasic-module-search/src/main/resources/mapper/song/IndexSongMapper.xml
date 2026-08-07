@@ -9,4 +9,32 @@
         文档可见：https://www.iocoder.cn/MyBatis/x-plugins/
      -->
 
+    <select id="selectSyncList" resultType="cn.qiany.basic.module.search.dal.dataobject.song.IndexSongDO">
+        SELECT
+            id,
+            org_id,
+            name,
+            singer_ids,
+            singer_names,
+            album_names,
+            hot,
+            is_copyright,
+            invalidate,
+            is_enabled,
+            first_start_state,
+            release_date,
+            update_time
+        FROM index_song
+        WHERE deleted = 0
+          AND id > #{lastId}
+        ORDER BY id ASC
+            LIMIT #{batchSize};
+    </select>
+
+    <select id="selectSyncCount" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM index_song
+        WHERE deleted = 0
+    </select>
+
 </mapper>

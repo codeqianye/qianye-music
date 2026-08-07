@@ -10,6 +10,7 @@ import cn.qiany.basic.module.search.dal.dataobject.song.IndexSongDO;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Mapper;
 import cn.qiany.basic.module.search.controller.admin.song.vo.*;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 歌曲 Mapper
@@ -45,5 +46,9 @@ public interface IndexSongMapper extends BaseMapperX<IndexSongDO> {
                 .orderByDesc(IndexSongDO::getHot)
                 .orderByDesc(IndexSongDO::getId));
     }
+
+    List<IndexSongDO> selectSyncList(@Param("lastId") Long lastId, @Param("batchSize") Integer batchSize);
+
+    Long selectSyncCount();
 
 }

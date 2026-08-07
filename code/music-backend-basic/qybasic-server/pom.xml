@@ -36,6 +36,12 @@
             <artifactId>qybasic-module-search</artifactId>
             <version>${revision}</version>
         </dependency>
+        <!--测试类-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
         <!-- 会员中心。默认注释，保证编译速度 -->
 <!--        <dependency>-->

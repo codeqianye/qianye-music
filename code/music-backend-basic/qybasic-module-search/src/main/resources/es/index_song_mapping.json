@@ -1,0 +1,46 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0,
+    "refresh_interval": "15s",
+    "analysis": {
+      "analyzer": {
+        "music_text": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": ["lowercase"]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "dynamic": "strict",
+    "properties": {
+      "id": {"type": "keyword"},
+      "dbId": {"type": "long"},
+      "name": {
+        "type": "text",
+        "analyzer": "music_text",
+        "fields": {"keyword": {"type": "keyword", "ignore_above": 255}}
+      },
+      "singerIds": {"type": "keyword"},
+      "singerNames": {
+        "type": "text",
+        "analyzer": "music_text",
+        "fields": {"keyword": {"type": "keyword", "ignore_above": 255}}
+      },
+      "albumNames": {
+        "type": "text",
+        "analyzer": "music_text",
+        "fields": {"keyword": {"type": "keyword", "ignore_above": 255}}
+      },
+      "hot": {"type": "long"},
+      "isCopyright": {"type": "byte"},
+      "invalidate": {"type": "date", "format": "strict_date_optional_time||yyyy-MM-dd"},
+      "isEnabled": {"type": "byte"},
+      "firstStartState": {"type": "byte"},
+      "releaseDate": {"type": "date", "format": "strict_date_optional_time||yyyy-MM-dd"},
+      "updateTime": {"type": "date", "format": "strict_date_optional_time||yyyy-MM-dd HH:mm:ss"}
+    }
+  }
+}
