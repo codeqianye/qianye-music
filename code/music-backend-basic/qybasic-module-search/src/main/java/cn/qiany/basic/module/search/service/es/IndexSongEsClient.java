@@ -1,6 +1,7 @@
 package cn.qiany.basic.module.search.service.es;
 
 import cn.qiany.basic.module.search.config.SongElasticsearchProperties;
+import cn.qiany.basic.module.search.controller.admin.song.vo.BulkWriteResult;
 import cn.qiany.basic.module.search.dal.elasticsearch.song.IndexSongEsDocument;
 import cn.qiany.basic.module.search.exception.SongEsSyncException;
 import cn.qiany.basic.module.search.exception.SongEsUnavailableException;
@@ -36,19 +37,26 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
-
+/**
+ * 封装歌曲索引管理、Bulk 写入和查询操作。
+ */
 @Slf4j
 @Service
-@RequiredArgsConstructor //生成一个所有final修饰的字段的构造方法，实现自动注入
+@RequiredArgsConstructor
 public class IndexSongEsClient {
 
-    private static final String MAPPING_PATH = "elasticsearch/index_song_mapping.json";
+    private static final String MAPPING_PATH = "es/index_song_mapping.json";
     private static final int MAX_FAILURE_IDS = 20;
 
     private final RestHighLevelClient client;
     private final SongElasticsearchProperties properties;
     private final IndexSongEsConverter converter;
 
+    /**
+     * 检查目标索引是否存在。
+     *
+     * @return true 表示索引存在
+     */
     public boolean indexExists() {
         try {
             GetIndexRequest request = new GetIndexRequest(indexName());
@@ -58,6 +66,9 @@ public class IndexSongEsClient {
         }
     }
 
+    /**
+     * 删除目标索引，索引不存在时直接返回。
+     */
     public void deleteIndex() {
         if (!indexExists()) {
             return;
@@ -73,6 +84,9 @@ public class IndexSongEsClient {
         }
     }
 
+    /**
+     * 根据 classpath Mapping 创建目标索引。
+     */
     public void createIndex() {
         if (indexExists()) {
             throw new SongEsSyncException("目标ES索引已存在: " + indexName());
@@ -90,11 +104,18 @@ public class IndexSongEsClient {
         }
     }
 
+    /**
+     * 批量写入歌曲文档。
+     *
+     * @param documents ES 歌曲文档
+     * @return Bulk 写入结果
+     */
     public BulkWriteResult bulkIndex(List<IndexSongEsDocument> documents) {
         if (CollectionUtils.isEmpty(documents)) {
             return BulkWriteResult.empty();
         }
 
+        // 使用业务 ID 作为 _id，重复同步时覆盖旧文档
         BulkRequest request = new BulkRequest();
         for (IndexSongEsDocument document : documents) {
             if (document == null || StringUtils.isBlank(document.getId())) {
@@ -114,6 +135,9 @@ public class IndexSongEsClient {
         }
     }
 
+    /**
+     * 刷新目标索引，使同步数据立即可查。
+     */
     public void refresh() {
         try {
             RefreshRequest request = new RefreshRequest(indexName());
@@ -123,6 +147,11 @@ public class IndexSongEsClient {
         }
     }
 
+    /**
+     * 统计目标索引文档数。
+     *
+     * @return ES 文档数
+     */
     public long count() {
         try {
             CountRequest request = new CountRequest(indexName());
@@ -132,6 +161,12 @@ public class IndexSongEsClient {
         }
     }
 
+    /**
+     * 执行 ES 搜索请求。
+     *
+     * @param request ES 搜索请求
+     * @return ES 搜索响应
+     */
     public SearchResponse search(SearchRequest request) {
         try {
             return client.search(request, RequestOptions.DEFAULT);
@@ -152,6 +187,7 @@ public class IndexSongEsClient {
         BulkWriteResult result = new BulkWriteResult();
         StringJoiner failureMessages = new StringJoiner("; ");
 
+        // Bulk 可能部分成功，需要逐条统计失败项
         for (BulkItemResponse item : response.getItems()) {
             if (!item.isFailed()) {
                 result.setSuccessCount(result.getSuccessCount() + 1);
