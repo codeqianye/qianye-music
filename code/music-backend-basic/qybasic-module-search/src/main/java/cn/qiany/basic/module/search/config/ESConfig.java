@@ -19,12 +19,12 @@ import java.util.stream.Collectors;
  * 建立es客户端连接
  */
 @Configuration
-public class ElasticsearchConfig {
+public class ESConfig {
 
     @Bean(destroyMethod = "close")
     public RestHighLevelClient restHighLevelClient(
-            SongElasticsearchProperties properties) {
-        SongElasticsearchProperties.Elasticsearch config =
+            SongESProperties properties) {
+        SongESProperties.Elasticsearch config =
                 properties.getElasticsearch();
 
         List<HttpHost> httpHosts = config.getUris()

@@ -1,8 +1,8 @@
 package cn.qiany.basic.module.search.controller.admin.song;
 
 import cn.qiany.basic.framework.common.pojo.CommonResult;
-import cn.qiany.basic.module.search.controller.admin.song.vo.es.IndexSongEsSyncResult;
-import cn.qiany.basic.module.search.service.es.IndexSongEsSyncService;
+import cn.qiany.basic.module.search.controller.admin.song.vo.sync.IndexSongEsSyncResult;
+import cn.qiany.basic.module.search.service.sync.IndexSongEsSyncService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,8 +18,8 @@ import static cn.qiany.basic.framework.common.pojo.CommonResult.success;
  */
 @Tag(name = "管理后台 - 歌曲ES索引")
 @RestController
-@RequestMapping("/api/search/es")
-public class IndexSongEsController {
+@RequestMapping("/api/sync")
+public class SyncSongController {
 
     @Resource
     private IndexSongEsSyncService syncService;

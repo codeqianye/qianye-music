@@ -1,9 +1,10 @@
 package cn.qiany.basic.module.search.service.es;
 
 import cn.qiany.basic.framework.common.exception.enums.GlobalErrorCodeConstants;
-import cn.qiany.basic.module.search.config.SongElasticsearchProperties;
-import cn.qiany.basic.module.search.controller.admin.song.vo.es.BulkWriteResult;
-import cn.qiany.basic.module.search.dal.elasticsearch.song.IndexSongEsDocument;
+import cn.qiany.basic.module.search.config.SongESProperties;
+import cn.qiany.basic.module.search.controller.admin.song.vo.sync.BulkWriteResult;
+import cn.qiany.basic.module.search.dal.es.song.IndexSongEsDocument;
+import cn.qiany.basic.module.search.service.sync.IndexSongEsConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -51,7 +52,7 @@ public class IndexSongEsClient {
     private static final int MAX_FAILURE_IDS = 20;
 
     private final RestHighLevelClient client;
-    private final SongElasticsearchProperties properties;
+    private final SongESProperties properties;
     private final IndexSongEsConverter converter;
 
     /**

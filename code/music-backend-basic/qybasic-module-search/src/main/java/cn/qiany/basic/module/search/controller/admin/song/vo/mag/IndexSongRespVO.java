@@ -1,11 +1,11 @@
-package cn.qiany.basic.module.search.controller.admin.song.vo;
+package cn.qiany.basic.module.search.controller.admin.song.vo.mag;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.*;
+
 import cn.idev.excel.annotation.*;
 
 @Schema(description = "管理后台 - 歌曲 Response VO")

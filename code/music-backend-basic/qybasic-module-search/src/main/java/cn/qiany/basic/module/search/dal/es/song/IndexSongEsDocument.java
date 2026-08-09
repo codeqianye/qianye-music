@@ -1,4 +1,4 @@
-package cn.qiany.basic.module.search.dal.elasticsearch.song;
+package cn.qiany.basic.module.search.dal.es.song;
 
 import lombok.Data;
 import lombok.Getter;

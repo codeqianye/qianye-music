@@ -6,10 +6,10 @@ import cn.qiany.basic.framework.common.pojo.PageResult;
 import cn.qiany.basic.framework.mybatis.core.query.LambdaQueryWrapperX;
 import cn.qiany.basic.framework.mybatis.core.mapper.BaseMapperX;
 import cn.qiany.basic.module.search.common.AbstractGeneralSearchRequest;
+import cn.qiany.basic.module.search.controller.admin.song.vo.mag.IndexSongPageReqVO;
 import cn.qiany.basic.module.search.dal.dataobject.song.IndexSongDO;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Mapper;
-import cn.qiany.basic.module.search.controller.admin.song.vo.*;
 import org.apache.ibatis.annotations.Param;
 
 /**

@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @Component
 @ConfigurationProperties(prefix = "search.song")
-public class SongElasticsearchProperties {
+public class SongESProperties {
 
     private SearchEngineType engine;
 

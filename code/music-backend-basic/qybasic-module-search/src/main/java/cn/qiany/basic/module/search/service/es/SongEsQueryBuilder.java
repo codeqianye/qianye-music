@@ -2,7 +2,7 @@ package cn.qiany.basic.module.search.service.es;
 
 import cn.qiany.basic.framework.common.exception.enums.GlobalErrorCodeConstants;
 import cn.qiany.basic.module.search.common.AbstractGeneralSearchRequest;
-import cn.qiany.basic.module.search.config.SongElasticsearchProperties;
+import cn.qiany.basic.module.search.config.SongESProperties;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.search.SearchRequest;
@@ -32,7 +32,7 @@ public class SongEsQueryBuilder {
     private static final ZoneId BUSINESS_ZONE = ZoneId.of("Asia/Shanghai");
     private static final int MAX_PAGE_SIZE = 50;
 
-    private final SongElasticsearchProperties properties;
+    private final SongESProperties properties;
 
 /**
  * 根据单曲搜索参数构建 ES 请求。

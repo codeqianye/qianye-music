@@ -1,5 +1,8 @@
 package cn.qiany.basic.module.search.controller.admin.song;
 
+import cn.qiany.basic.module.search.controller.admin.song.vo.mag.IndexSongPageReqVO;
+import cn.qiany.basic.module.search.controller.admin.song.vo.mag.IndexSongRespVO;
+import cn.qiany.basic.module.search.controller.admin.song.vo.mag.IndexSongSaveReqVO;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
@@ -8,7 +11,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Operation;
 
-import javax.validation.constraints.*;
 import javax.validation.*;
 import javax.servlet.http.*;
 import java.util.*;
@@ -25,7 +27,6 @@ import cn.qiany.basic.framework.excel.core.util.ExcelUtils;
 import cn.qiany.basic.framework.apilog.core.annotation.ApiAccessLog;
 import static cn.qiany.basic.framework.apilog.core.enums.OperateTypeEnum.*;
 
-import cn.qiany.basic.module.search.controller.admin.song.vo.*;
 import cn.qiany.basic.module.search.dal.dataobject.song.IndexSongDO;
 import cn.qiany.basic.module.search.service.song.IndexSongService;
 
@@ -101,4 +102,4 @@ public class IndexSongController {
                         BeanUtils.toBean(list, IndexSongRespVO.class));
     }
 
-}
+}

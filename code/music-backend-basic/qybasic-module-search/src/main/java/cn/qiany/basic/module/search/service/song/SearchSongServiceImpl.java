@@ -2,7 +2,7 @@ package cn.qiany.basic.module.search.service.song;
 
 import cn.qiany.basic.module.search.common.AbstractGeneralSearchRequest;
 import cn.qiany.basic.module.search.common.AbstractGeneralSearchResponse;
-import cn.qiany.basic.module.search.config.SongElasticsearchProperties;
+import cn.qiany.basic.module.search.config.SongESProperties;
 import cn.qiany.basic.module.search.controller.admin.song.vo.es.SongEsSearchResult;
 import cn.qiany.basic.module.search.dal.dataobject.song.IndexSongDO;
 import cn.qiany.basic.module.search.dal.mysql.song.IndexSongMapper;
@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -28,7 +27,7 @@ import java.util.List;
 public class SearchSongServiceImpl extends AbstractSearchTemplate implements SearchSongService {
     private final IndexSongMapper indexSongMapper;
     private final SearchSongEsService searchSongEsService;
-    private final SongElasticsearchProperties properties;
+    private final SongESProperties properties;
 
     /**
      * 执行单曲搜索。
@@ -48,7 +47,7 @@ public class SearchSongServiceImpl extends AbstractSearchTemplate implements Sea
 
         // ES 模式只查询 ES，失败时不自动切换 MySQL
         SongEsSearchResult esResult = searchSongEsService.search(request);
-        AbstractGeneralSearchResponse response = afterHandlePaged(
+        AbstractGeneralSearchResponse response = afterHandle(
                 request, new AbstractGeneralSearchResponse(),
                 esResult.getRows(), esResult.getTotal());
         logSuccess(request, "ES", esResult.getTotal(),
@@ -60,7 +59,7 @@ public class SearchSongServiceImpl extends AbstractSearchTemplate implements Sea
             AbstractGeneralSearchRequest request,
             long start) {
         List<IndexSongDO> rows = indexSongMapper.selectList(request);
-        AbstractGeneralSearchResponse response = afterHandle(
+        AbstractGeneralSearchResponse response = afterHandleDB(
                 request, new AbstractGeneralSearchResponse(), rows);
         logSuccess(request, "MYSQL", rows.size(),
                 response.getC() == null ? 0 : ((List<?>) response.getC()).size(), start);

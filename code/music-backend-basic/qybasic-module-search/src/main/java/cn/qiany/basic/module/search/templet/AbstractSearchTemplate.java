@@ -24,21 +24,21 @@ public abstract class AbstractSearchTemplate {
      * 后置处理
      * @return
      */
-    protected AbstractGeneralSearchResponse afterHandle(AbstractGeneralSearchRequest request,AbstractGeneralSearchResponse response, List recallData){
+    protected AbstractGeneralSearchResponse afterHandleDB(AbstractGeneralSearchRequest request,AbstractGeneralSearchResponse response, List recallData){
         response.setTotal(recallData.size());
-        response.build(request, recallData);
+        response.buildDB(request, recallData);
         return response;
     }
 
     /**
      * 处理 ES 已分页的搜索结果。
      */
-    protected AbstractGeneralSearchResponse afterHandlePaged(
+    protected AbstractGeneralSearchResponse afterHandle(
             AbstractGeneralSearchRequest request,
             AbstractGeneralSearchResponse response,
             List<?> recallData,
             long total) {
-        response.buildPaged(request, recallData, total);
+        response.build(request, recallData, total);
         return response;
     }
 }

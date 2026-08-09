@@ -68,7 +68,7 @@ public class AbstractGeneralSearchResponse implements Serializable {
      * @param request 接口参数及流程附加参数
      * @param c       搜索结果
      */
-    public void build(AbstractGeneralSearchRequest request, Object c) {
+    public void buildDB(AbstractGeneralSearchRequest request, Object c) {
         if (null == c) {
             c = Collections.emptyList();
         }
@@ -100,7 +100,7 @@ public class AbstractGeneralSearchResponse implements Serializable {
      * @param rows ES 当前页数据
      * @param total ES 总命中数
      */
-    public void buildPaged(AbstractGeneralSearchRequest request,
+    public void build(AbstractGeneralSearchRequest request,
                            List<?> rows,
                            long total) {
         List<?> safeRows = rows == null ? Collections.emptyList() : rows;

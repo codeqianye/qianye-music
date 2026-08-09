@@ -1,8 +1,8 @@
-package cn.qiany.basic.module.search.service.es;
+package cn.qiany.basic.module.search.service.sync;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.qiany.basic.module.search.dal.dataobject.song.IndexSongDO;
-import cn.qiany.basic.module.search.dal.elasticsearch.song.IndexSongEsDocument;
+import cn.qiany.basic.module.search.dal.es.song.IndexSongEsDocument;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 

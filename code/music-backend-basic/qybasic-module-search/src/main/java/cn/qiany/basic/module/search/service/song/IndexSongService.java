@@ -2,10 +2,11 @@ package cn.qiany.basic.module.search.service.song;
 
 import java.util.*;
 import javax.validation.*;
-import cn.qiany.basic.module.search.controller.admin.song.vo.*;
+
+import cn.qiany.basic.module.search.controller.admin.song.vo.mag.IndexSongPageReqVO;
+import cn.qiany.basic.module.search.controller.admin.song.vo.mag.IndexSongSaveReqVO;
 import cn.qiany.basic.module.search.dal.dataobject.song.IndexSongDO;
 import cn.qiany.basic.framework.common.pojo.PageResult;
-import cn.qiany.basic.framework.common.pojo.PageParam;
 
 /**
  * 歌曲 Service 接口
@@ -59,4 +60,4 @@ public interface IndexSongService {
      */
     PageResult<IndexSongDO> getIndexSongPage(IndexSongPageReqVO pageReqVO);
 
-}
+}

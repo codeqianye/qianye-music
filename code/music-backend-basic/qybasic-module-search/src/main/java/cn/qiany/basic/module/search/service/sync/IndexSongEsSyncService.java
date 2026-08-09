@@ -1,13 +1,13 @@
-package cn.qiany.basic.module.search.service.es;
+package cn.qiany.basic.module.search.service.sync;
 
 import cn.qiany.basic.framework.common.exception.enums.GlobalErrorCodeConstants;
-import cn.qiany.basic.module.search.config.SongElasticsearchProperties;
-import cn.qiany.basic.module.search.controller.admin.song.vo.es.BulkWriteResult;
-import cn.qiany.basic.module.search.controller.admin.song.vo.es.IndexSongEsSyncResult;
+import cn.qiany.basic.module.search.config.SongESProperties;
+import cn.qiany.basic.module.search.controller.admin.song.vo.sync.BulkWriteResult;
+import cn.qiany.basic.module.search.controller.admin.song.vo.sync.IndexSongEsSyncResult;
 import cn.qiany.basic.module.search.dal.dataobject.song.IndexSongDO;
-import cn.qiany.basic.module.search.dal.elasticsearch.song.IndexSongEsDocument;
+import cn.qiany.basic.module.search.dal.es.song.IndexSongEsDocument;
 import cn.qiany.basic.module.search.dal.mysql.song.IndexSongMapper;
-import cn.qiany.basic.module.search.enums.SearchEngineType;
+import cn.qiany.basic.module.search.service.es.IndexSongEsClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -34,7 +34,7 @@ public class IndexSongEsSyncService {
     private final IndexSongMapper mapper;
     private final IndexSongEsConverter converter;
     private final IndexSongEsClient esClient;
-    private final SongElasticsearchProperties properties;
+    private final SongESProperties properties;
 
     /**
      * 删除并重建索引，再按主键游标全量同步。
@@ -42,7 +42,6 @@ public class IndexSongEsSyncService {
      * @return 全量同步结果
      */
     public IndexSongEsSyncResult fullSync() {
-        checkEngineIsMysql();
         if (!syncing.compareAndSet(false, true)) {
             throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"全量同步正在执行");
         }
@@ -106,13 +105,6 @@ public class IndexSongEsSyncService {
         } finally {
             // 无论成功或失败都释放同步标记
             syncing.set(false);
-        }
-    }
-
-    private void checkEngineIsMysql() {
-        if (properties.getEngine() != SearchEngineType.MYSQL) {
-            throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"全量同步前必须将search.song.engine设为MYSQL");
-
         }
     }
 

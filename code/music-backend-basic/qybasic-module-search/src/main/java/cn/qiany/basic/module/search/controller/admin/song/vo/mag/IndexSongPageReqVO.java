@@ -1,13 +1,8 @@
-package cn.qiany.basic.module.search.controller.admin.song.vo;
+package cn.qiany.basic.module.search.controller.admin.song.vo.mag;
 
 import lombok.*;
-import java.util.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import cn.qiany.basic.framework.common.pojo.PageParam;
-import org.springframework.format.annotation.DateTimeFormat;
-import java.time.LocalDateTime;
-
-import static cn.qiany.basic.framework.common.util.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
 @Schema(description = "管理后台 - 歌曲分页 Request VO")
 @Data

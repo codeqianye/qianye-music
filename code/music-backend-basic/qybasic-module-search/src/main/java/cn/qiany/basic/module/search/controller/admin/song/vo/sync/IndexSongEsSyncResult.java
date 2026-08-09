@@ -1,4 +1,4 @@
-package cn.qiany.basic.module.search.controller.admin.song.vo.es;
+package cn.qiany.basic.module.search.controller.admin.song.vo.sync;
 
 import lombok.Data;
 
