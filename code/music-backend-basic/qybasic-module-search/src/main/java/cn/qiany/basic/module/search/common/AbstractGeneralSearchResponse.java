@@ -115,9 +115,13 @@ public class AbstractGeneralSearchResponse implements Serializable {
         // 使用 long 计算当前页结束位置，避免整数溢出
         long currentEnd = (long) request.getPageNo() * request.getPageSize();
         this.setNodata(currentEnd >= total ? 1 : 0);
-        this.setSeq(request.getTraceSeq());
+
+        String flowId = request.getExtra().getFlowId();
+        String traceSeq = request.getTraceSeq();
+        this.setSeq(StringUtils.isBlank(flowId) ? traceSeq : traceSeq + "@" + flowId);
         this.setU(LocalDateTime.now().format(
                 DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        buildExtraResponse(request);
     }
 
     /**

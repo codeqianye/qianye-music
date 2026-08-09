@@ -1,8 +1,8 @@
 package cn.qiany.basic.module.search.service.es;
 
+import cn.qiany.basic.framework.common.exception.enums.GlobalErrorCodeConstants;
 import cn.qiany.basic.module.search.common.AbstractGeneralSearchRequest;
 import cn.qiany.basic.module.search.config.SongElasticsearchProperties;
-import cn.qiany.basic.module.search.exception.SongSearchParamException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.search.SearchRequest;
@@ -19,6 +19,8 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+
+import static cn.qiany.basic.framework.common.exception.util.ServiceExceptionUtil.exception0;
 
 /**
  * 构建单曲 ES 查询、过滤、排序和高亮 DSL。
@@ -40,25 +42,24 @@ public class SongEsQueryBuilder {
  */
 public SearchRequest build(AbstractGeneralSearchRequest request) {
     if (request == null) {
-        throw new SongSearchParamException("搜索请求不能为空");
+        throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"搜索请求不能为空");
     }
     String keyword = StringUtils.trim(request.getText());
     if (StringUtils.isBlank(keyword)) {
-        throw new SongSearchParamException("搜索关键词不能为空");
+        throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"搜索关键词不能为空");
     }
 
     int pageNo = request.getPageNo();
     int pageSize = request.getPageSize();
     if (pageNo < 1) {
-        throw new SongSearchParamException("pageNo不能小于1");
+        throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"pageNo不能小于1");
     }
     if (pageSize < 1 || pageSize > MAX_PAGE_SIZE) {
-        throw new SongSearchParamException("pageSize必须在1至50之间");
+        throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"pageSize必须在1至50之间");
     }
     long from = (long) (pageNo - 1) * pageSize;
     if (from + pageSize > properties.getElasticsearch().getMaxResultWindow()) {
-        throw new SongSearchParamException("分页窗口超过上限: "
-                + properties.getElasticsearch().getMaxResultWindow());
+        throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"分页窗口超过上限: {}",properties.getElasticsearch().getMaxResultWindow());
     }
 
     //type: 以匹配效果最好的那个字段为主来计算相关性分数

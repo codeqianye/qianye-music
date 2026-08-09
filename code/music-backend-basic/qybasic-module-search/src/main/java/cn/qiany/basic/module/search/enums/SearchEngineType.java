@@ -5,5 +5,5 @@ package cn.qiany.basic.module.search.enums;
  */
 public enum SearchEngineType {
     MYSQL,
-    ELASTICSEARCH
+    ES
 }

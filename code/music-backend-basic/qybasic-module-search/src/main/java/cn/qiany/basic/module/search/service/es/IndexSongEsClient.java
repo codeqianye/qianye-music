@@ -1,10 +1,9 @@
 package cn.qiany.basic.module.search.service.es;
 
+import cn.qiany.basic.framework.common.exception.enums.GlobalErrorCodeConstants;
 import cn.qiany.basic.module.search.config.SongElasticsearchProperties;
 import cn.qiany.basic.module.search.controller.admin.song.vo.es.BulkWriteResult;
 import cn.qiany.basic.module.search.dal.elasticsearch.song.IndexSongEsDocument;
-import cn.qiany.basic.module.search.exception.SongEsSyncException;
-import cn.qiany.basic.module.search.exception.SongEsUnavailableException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -37,6 +36,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
+
+import static cn.qiany.basic.framework.common.exception.util.ServiceExceptionUtil.exception0;
+
 /**
  * 封装歌曲索引管理、Bulk 写入和查询操作。
  */
@@ -62,7 +64,8 @@ public class IndexSongEsClient {
             GetIndexRequest request = new GetIndexRequest(indexName());
             return client.indices().exists(request, RequestOptions.DEFAULT);
         } catch (IOException e) {
-            throw new SongEsSyncException("检查ES索引失败: " + indexName(), e);
+            throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"检查ES索引失败: {}",indexName());
+
         }
     }
 
@@ -77,10 +80,10 @@ public class IndexSongEsClient {
             DeleteIndexRequest request = new DeleteIndexRequest(indexName());
             AcknowledgedResponse response = client.indices().delete(request, RequestOptions.DEFAULT);
             if (!response.isAcknowledged()) {
-                throw new SongEsSyncException("删除ES索引未被集群确认: " + indexName());
+                throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"删除ES索引未被集群确认: {}",indexName());
             }
         } catch (IOException e) {
-            throw new SongEsSyncException("删除ES索引失败: " + indexName(), e);
+            throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"删除ES索引失败: {}",indexName());
         }
     }
 
@@ -89,7 +92,8 @@ public class IndexSongEsClient {
      */
     public void createIndex() {
         if (indexExists()) {
-            throw new SongEsSyncException("目标ES索引已存在: " + indexName());
+            throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"目标ES索引已存在: {}",indexName());
+
         }
         String mapping = readClasspath(MAPPING_PATH);
         try {
@@ -97,10 +101,11 @@ public class IndexSongEsClient {
             request.source(mapping, XContentType.JSON);
             CreateIndexResponse response = client.indices().create(request, RequestOptions.DEFAULT);
             if (!response.isAcknowledged()) {
-                throw new SongEsSyncException("创建ES索引未被集群确认: " + indexName());
+                throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"创建ES索引未被集群确认: {}",indexName());
             }
         } catch (IOException e) {
-            throw new SongEsSyncException("创建ES索引失败: " + indexName(), e);
+            throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"创建ES索引失败: {}",indexName());
+
         }
     }
 
@@ -119,7 +124,7 @@ public class IndexSongEsClient {
         BulkRequest request = new BulkRequest();
         for (IndexSongEsDocument document : documents) {
             if (document == null || StringUtils.isBlank(document.getId())) {
-                throw new SongEsSyncException("Bulk文档或业务ID为空");
+                throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"Bulk文档或业务ID为空");
             }
             Map<String, Object> source = converter.toSource(document);
             request.add(new IndexRequest(indexName())
@@ -131,7 +136,8 @@ public class IndexSongEsClient {
             BulkResponse response = client.bulk(request, RequestOptions.DEFAULT);
             return parseBulkResponse(response);
         } catch (IOException e) {
-            throw new SongEsSyncException("ES Bulk请求失败", e);
+            throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"ES Bulk请求失败");
+
         }
     }
 
@@ -143,7 +149,8 @@ public class IndexSongEsClient {
             RefreshRequest request = new RefreshRequest(indexName());
             client.indices().refresh(request, RequestOptions.DEFAULT);
         } catch (IOException e) {
-            throw new SongEsSyncException("刷新ES索引失败: " + indexName(), e);
+            throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"刷新ES索引失败: {}",indexName());
+
         }
     }
 
@@ -157,7 +164,8 @@ public class IndexSongEsClient {
             CountRequest request = new CountRequest(indexName());
             return client.count(request, RequestOptions.DEFAULT).getCount();
         } catch (IOException e) {
-            throw new SongEsSyncException("统计ES文档数失败: " + indexName(), e);
+            throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"统计ES文档数失败: {}",indexName());
+
         }
     }
 
@@ -175,11 +183,11 @@ public class IndexSongEsClient {
             if (status == RestStatus.NOT_FOUND
                     || status == RestStatus.TOO_MANY_REQUESTS
                     || status == RestStatus.SERVICE_UNAVAILABLE) {
-                throw new SongEsUnavailableException("ES查询不可用, status=" + status, e);
+                throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"ES查询不可用, status= {}",status);
             }
             throw e;
         } catch (IOException e) {
-            throw new SongEsUnavailableException("ES连接失败或查询超时", e);
+            throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"ES连接失败或查询超时");
         }
     }
 
@@ -212,7 +220,7 @@ public class IndexSongEsClient {
         try (InputStream input = resource.getInputStream()) {
             return StreamUtils.copyToString(input, StandardCharsets.UTF_8);
         } catch (IOException e) {
-            throw new SongEsSyncException("读取ES Mapping失败: " + path, e);
+            throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"读取ES Mapping失败: {}",path);
         }
     }
 
@@ -220,7 +228,7 @@ public class IndexSongEsClient {
         String indexName = properties.getElasticsearch().getIndexName();
         if (StringUtils.isBlank(indexName)
                 || !indexName.matches("^[a-z0-9][a-z0-9_-]{0,254}$")) {
-            throw new SongEsSyncException("非法ES索引名: " + indexName);
+            throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"非法ES索引名: {}",indexName);
         }
         return indexName;
     }

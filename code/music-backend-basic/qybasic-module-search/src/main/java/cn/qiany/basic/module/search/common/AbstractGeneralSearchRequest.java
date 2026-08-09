@@ -4,6 +4,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.*;
 import java.io.Serializable;
 
 @Getter
@@ -27,6 +28,8 @@ public class AbstractGeneralSearchRequest implements Serializable {
     /**
      *  搜索内容
      */
+    @NotBlank(message = "搜索关键词不能为空")
+    @Size(max = 100, message = "搜索关键词长度不能超过100")
     protected String text;
 
     /**
@@ -34,8 +37,13 @@ public class AbstractGeneralSearchRequest implements Serializable {
      */
     protected String traceSeq;
 
+    @NotNull
+    @Min(value = 1, message = "pageSize不能小于1")
+    @Max(value = 50, message = "pageSize不能大于50")
     protected Integer pageSize;
 
+    @NotNull
+    @Min(value = 1, message = "pageNo不能小于1")
     protected Integer pageNo;
 
     protected Integer is_correct = 1;

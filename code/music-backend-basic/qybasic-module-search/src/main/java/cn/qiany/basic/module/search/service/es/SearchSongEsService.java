@@ -1,9 +1,9 @@
 package cn.qiany.basic.module.search.service.es;
 
+import cn.qiany.basic.framework.common.exception.enums.GlobalErrorCodeConstants;
 import cn.qiany.basic.module.search.common.AbstractGeneralSearchRequest;
 import cn.qiany.basic.module.search.controller.admin.song.vo.es.SongEsSearchResult;
 import cn.qiany.basic.module.search.controller.admin.song.vo.es.SongSearchItem;
-import cn.qiany.basic.module.search.exception.SongEsResultMappingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.search.SearchRequest;
@@ -19,6 +19,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static cn.qiany.basic.framework.common.exception.util.ServiceExceptionUtil.exception0;
 
 /**
  * 执行单曲 ES 查询并映射当前页结果。
@@ -64,8 +66,7 @@ public class SearchSongEsService {
     private SongSearchItem mapHit(SearchHit hit) {
         Map<String, Object> source = hit.getSourceAsMap();
         if (source == null) {
-            throw new SongEsResultMappingException(
-                    "ES _source为空, _id=" + hit.getId());
+            throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"ES _source为空, _id={}",hit.getId());
         }
 
         // 同时保留原始字段和高亮字段
@@ -92,8 +93,7 @@ public class SearchSongEsService {
         try {
             return Long.valueOf(String.valueOf(value));
         } catch (NumberFormatException e) {
-            throw new SongEsResultMappingException(
-                    "ES数值字段转Long失败: " + value, e);
+            throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"ES数值字段转Long失败: {}",value);
         }
     }
 

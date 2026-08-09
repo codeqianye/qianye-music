@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 import static cn.qiany.basic.framework.common.pojo.CommonResult.success;
 
@@ -25,7 +26,7 @@ public class SearchSongController {
 
     @PostMapping("/song")
     @Operation(summary = "获得歌曲列表")
-    public CommonResult<AbstractGeneralSearchResponse> listSearchSong(@RequestBody AbstractGeneralSearchRequest request) {
+    public CommonResult<AbstractGeneralSearchResponse> listSearchSong(@Valid @RequestBody AbstractGeneralSearchRequest request) {
         AbstractGeneralSearchResponse response = searchSongService.search(request);
         return success(response);
     }

@@ -9,4 +9,5 @@ import cn.qiany.basic.framework.common.exception.ErrorCode;
  */
 public interface ErrorCodeConstants {
     ErrorCode INDEX_SONG_NOT_EXISTS = new ErrorCode(1_004_000_001, "歌曲不存在");
+
 }

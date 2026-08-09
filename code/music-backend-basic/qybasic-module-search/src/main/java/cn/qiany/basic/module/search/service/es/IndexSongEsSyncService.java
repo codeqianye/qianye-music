@@ -1,5 +1,6 @@
 package cn.qiany.basic.module.search.service.es;
 
+import cn.qiany.basic.framework.common.exception.enums.GlobalErrorCodeConstants;
 import cn.qiany.basic.module.search.config.SongElasticsearchProperties;
 import cn.qiany.basic.module.search.controller.admin.song.vo.es.BulkWriteResult;
 import cn.qiany.basic.module.search.controller.admin.song.vo.es.IndexSongEsSyncResult;
@@ -7,7 +8,6 @@ import cn.qiany.basic.module.search.dal.dataobject.song.IndexSongDO;
 import cn.qiany.basic.module.search.dal.elasticsearch.song.IndexSongEsDocument;
 import cn.qiany.basic.module.search.dal.mysql.song.IndexSongMapper;
 import cn.qiany.basic.module.search.enums.SearchEngineType;
-import cn.qiany.basic.module.search.exception.SongEsSyncException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,6 +15,8 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import static cn.qiany.basic.framework.common.exception.util.ServiceExceptionUtil.exception0;
 
 /**
  * 负责将 MySQL 歌曲全量同步到 ES。
@@ -42,7 +44,7 @@ public class IndexSongEsSyncService {
     public IndexSongEsSyncResult fullSync() {
         checkEngineIsMysql();
         if (!syncing.compareAndSet(false, true)) {
-            throw new SongEsSyncException("全量同步正在执行");
+            throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"全量同步正在执行");
         }
 
         long start = System.currentTimeMillis();
@@ -75,8 +77,8 @@ public class IndexSongEsSyncService {
                             writeResult.getSuccessCount(), writeResult.getFailureCount(),
                             writeResult.getFailureIds(),
                             System.currentTimeMillis() - batchStart);
-                    throw new SongEsSyncException(
-                            "ES Bulk部分失败: " + writeResult.getFailureMessage());
+                    throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"ES Bulk部分失败: {}",writeResult.getFailureMessage());
+
                 }
 
                 // 当前批次全部成功后才推进游标
@@ -109,8 +111,8 @@ public class IndexSongEsSyncService {
 
     private void checkEngineIsMysql() {
         if (properties.getEngine() != SearchEngineType.MYSQL) {
-            throw new SongEsSyncException(
-                    "全量同步前必须将search.song.engine设为MYSQL");
+            throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"全量同步前必须将search.song.engine设为MYSQL");
+
         }
     }
 
@@ -118,8 +120,8 @@ public class IndexSongEsSyncService {
         if (batchSize == null
                 || batchSize < MIN_BATCH_SIZE
                 || batchSize > MAX_BATCH_SIZE) {
-            throw new SongEsSyncException(
-                    "sync-batch-size必须在1至2000之间: " + batchSize);
+            throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(),"sync-batch-size必须在1至2000之间: {}",batchSize);
+
         }
         return batchSize;
     }
@@ -128,10 +130,10 @@ public class IndexSongEsSyncService {
                             long successCount,
                             long esCount) {
         if (mysqlCount != successCount || successCount != esCount) {
-            throw new SongEsSyncException(
-                    "同步数量不一致, mysqlCount=" + mysqlCount
-                            + ", successCount=" + successCount
-                            + ", esCount=" + esCount);
+            throw exception0(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode()
+                    ,"同步数量不一致, mysqlCount={}"
+                            + ", successCount={}"
+                            + ", esCount={}",mysqlCount,successCount,esCount);
         }
     }
 

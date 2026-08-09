@@ -15,8 +15,6 @@ public class SongElasticsearchProperties {
 
     private SearchEngineType engine;
 
-    private Boolean fallbackToMysql;
-
     private Elasticsearch elasticsearch = new Elasticsearch();
 
     @Data
