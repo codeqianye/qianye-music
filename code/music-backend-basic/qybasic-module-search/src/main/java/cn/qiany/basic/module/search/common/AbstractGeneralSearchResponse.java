@@ -95,6 +95,32 @@ public class AbstractGeneralSearchResponse implements Serializable {
     }
 
     /**
+     * 构建 ES 已分页响应，不再执行内存分页。
+     * @param request 搜索参数
+     * @param rows ES 当前页数据
+     * @param total ES 总命中数
+     */
+    public void buildPaged(AbstractGeneralSearchRequest request,
+                           List<?> rows,
+                           long total) {
+        List<?> safeRows = rows == null ? Collections.emptyList() : rows;
+        if (total > Integer.MAX_VALUE) {
+            throw new IllegalStateException("搜索结果总数超过响应字段上限: " + total);
+        }
+
+        this.setC(safeRows);
+        this.setTotal((int) total);
+        this.setF(safeRows.isEmpty() ? 0 : 1);
+
+        // 使用 long 计算当前页结束位置，避免整数溢出
+        long currentEnd = (long) request.getPageNo() * request.getPageSize();
+        this.setNodata(currentEnd >= total ? 1 : 0);
+        this.setSeq(request.getTraceSeq());
+        this.setU(LocalDateTime.now().format(
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+    }
+
+    /**
      * 设置其他响应结果
      *
      * @param request 接口参数
@@ -122,6 +148,8 @@ public class AbstractGeneralSearchResponse implements Serializable {
         int toIndex = Math.min(fromIndex + pageSize, list.size());
         return list.subList(fromIndex, toIndex);
     }
+
+
 
 
 }

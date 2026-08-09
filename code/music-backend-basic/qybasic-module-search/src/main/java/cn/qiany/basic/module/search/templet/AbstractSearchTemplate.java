@@ -1,6 +1,5 @@
 package cn.qiany.basic.module.search.templet;
 
-import cn.qiany.basic.framework.common.pojo.CommonResult;
 import cn.qiany.basic.module.search.common.AbstractGeneralSearchRequest;
 import cn.qiany.basic.module.search.common.AbstractGeneralSearchResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +27,18 @@ public abstract class AbstractSearchTemplate {
     protected AbstractGeneralSearchResponse afterHandle(AbstractGeneralSearchRequest request,AbstractGeneralSearchResponse response, List recallData){
         response.setTotal(recallData.size());
         response.build(request, recallData);
+        return response;
+    }
+
+    /**
+     * 处理 ES 已分页的搜索结果。
+     */
+    protected AbstractGeneralSearchResponse afterHandlePaged(
+            AbstractGeneralSearchRequest request,
+            AbstractGeneralSearchResponse response,
+            List<?> recallData,
+            long total) {
+        response.buildPaged(request, recallData, total);
         return response;
     }
 }
