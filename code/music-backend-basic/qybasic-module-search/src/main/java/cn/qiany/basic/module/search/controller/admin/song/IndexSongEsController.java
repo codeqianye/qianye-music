@@ -1,7 +1,7 @@
 package cn.qiany.basic.module.search.controller.admin.song;
 
 import cn.qiany.basic.framework.common.pojo.CommonResult;
-import cn.qiany.basic.module.search.controller.admin.song.vo.IndexSongEsSyncResult;
+import cn.qiany.basic.module.search.controller.admin.song.vo.es.IndexSongEsSyncResult;
 import cn.qiany.basic.module.search.service.es.IndexSongEsSyncService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

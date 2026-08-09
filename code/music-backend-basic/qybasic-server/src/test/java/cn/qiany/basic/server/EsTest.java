@@ -1,7 +1,7 @@
 package cn.qiany.basic.server;
 
 import cn.qiany.basic.module.search.dal.elasticsearch.song.IndexSongEsDocument;
-import cn.qiany.basic.module.search.controller.admin.song.vo.BulkWriteResult;
+import cn.qiany.basic.module.search.controller.admin.song.vo.es.BulkWriteResult;
 import cn.qiany.basic.module.search.service.es.IndexSongEsClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

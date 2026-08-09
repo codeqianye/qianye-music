@@ -1,8 +1,8 @@
 package cn.qiany.basic.module.search.service.es;
 
 import cn.qiany.basic.module.search.config.SongElasticsearchProperties;
-import cn.qiany.basic.module.search.controller.admin.song.vo.BulkWriteResult;
-import cn.qiany.basic.module.search.controller.admin.song.vo.IndexSongEsSyncResult;
+import cn.qiany.basic.module.search.controller.admin.song.vo.es.BulkWriteResult;
+import cn.qiany.basic.module.search.controller.admin.song.vo.es.IndexSongEsSyncResult;
 import cn.qiany.basic.module.search.dal.dataobject.song.IndexSongDO;
 import cn.qiany.basic.module.search.dal.elasticsearch.song.IndexSongEsDocument;
 import cn.qiany.basic.module.search.dal.mysql.song.IndexSongMapper;

@@ -1,7 +1,7 @@
 package cn.qiany.basic.module.search.service.es;
 
 import cn.qiany.basic.module.search.config.SongElasticsearchProperties;
-import cn.qiany.basic.module.search.controller.admin.song.vo.BulkWriteResult;
+import cn.qiany.basic.module.search.controller.admin.song.vo.es.BulkWriteResult;
 import cn.qiany.basic.module.search.dal.elasticsearch.song.IndexSongEsDocument;
 import cn.qiany.basic.module.search.exception.SongEsSyncException;
 import cn.qiany.basic.module.search.exception.SongEsUnavailableException;
