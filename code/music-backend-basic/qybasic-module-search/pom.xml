@@ -48,6 +48,18 @@
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>elasticsearch-rest-high-level-client</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--abtest-->
+<!--        <dependency>
+            <groupId></groupId>
+            <artifactId>qybasic-abtest</artifactId>
+        </dependency>-->
+
 
     </dependencies>
 </project>

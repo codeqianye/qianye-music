@@ -16,18 +16,7 @@
         <module>qybasic-module-system</module>
         <module>qybasic-module-infra</module>
         <module>qybasic-module-search</module>
-        <!--        <module>qybasic-module-member</module>-->
-<!--        <module>qybasic-module-bpm</module>-->
-<!--        <module>qybasic-module-report</module>-->
-<!--        <module>qybasic-module-mp</module>-->
-<!--        <module>qybasic-module-pay</module>-->
-<!--        <module>qybasic-module-mall</module>-->
-<!--        <module>qybasic-module-crm</module>-->
-<!--        <module>qybasic-module-erp</module>-->
-<!--        <module>qybasic-module-iot</module>-->
-<!--        <module>qybasic-module-mes</module>-->
-<!-- 请参考 https://doc.iocoder.cn/ai/build/ 文档，完成 AI 模块的启动！！！ -->
-<!--        <module>qybasic-module-ai</module>-->
+        <module>qybasic-abtest</module>
     </modules>
 
     <name>${project.artifactId}</name>
