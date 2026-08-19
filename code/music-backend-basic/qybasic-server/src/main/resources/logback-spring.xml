@@ -34,6 +34,12 @@
         <appender-ref ref="FILE"/>
     </appender>
 
+    <!-- 仅记录本地流程引擎的阶段日志。 -->
+    <logger name="cn.qiany.basic.abtest" level="INFO" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ASYNC"/>
+    </logger>
+
     <!-- SkyWalking Appender：GRPC 日志收集，实现日志中心 -->
     <!--
     <appender name="SKYWALKING" class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.log.GRPCLogClientAppender">

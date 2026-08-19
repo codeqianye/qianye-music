@@ -48,17 +48,26 @@
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>elasticsearch-rest-high-level-client</artifactId>
         </dependency>
+
+        <!--日志打印-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!--abtest-->
-<!--        <dependency>
-            <groupId></groupId>
+        <!--ab架构-->
+        <dependency>
+            <groupId>cn.qiany.boot</groupId>
             <artifactId>qybasic-abtest</artifactId>
-        </dependency>-->
+            <version>${revision}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
 
     </dependencies>

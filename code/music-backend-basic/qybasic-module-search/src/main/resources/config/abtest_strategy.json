@@ -1,0 +1,31 @@
+{
+  "s900": {
+    "TextRule": {
+      "chain": [
+        "cleanText:root:trim"
+      ],
+      "order": "0",
+      "fmap": "msc_0",
+      "toggle": "1",
+      "useab": "0",
+      "required": "1",
+      "timeoutMs": "200"
+    },
+    "song": {
+      "order": "10",
+      "fmap": "msc_10",
+      "toggle": "1",
+      "useab": "0",
+      "required": "1",
+      "timeoutMs": "1500"
+    },
+    "decorate": {
+      "order": "30",
+      "fmap": "msc_2",
+      "toggle": "1",
+      "useab": "0",
+      "required": "1",
+      "timeoutMs": "200"
+    }
+  }
+}

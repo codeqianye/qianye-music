@@ -40,7 +40,21 @@ public class SearchSongEsService {
      * @return ES 单曲搜索结果
      */
     public SongEsSearchResult search(AbstractGeneralSearchRequest request) {
-        SearchRequest searchRequest = queryBuilder.build(request);
+        // 兼容第二期调用：仍以请求原词作为查询词。
+        return search(request, request == null ? null : request.getText());
+    }
+
+    /**
+     * 使用流程节点产出的指定关键词执行 ES 查询。
+     *
+     * @param request 单曲搜索参数
+     * @param keyword 当前流程节点产出的查询词
+     * @return ES 单曲搜索结果
+     */
+    public SongEsSearchResult search(
+            AbstractGeneralSearchRequest request,
+            String keyword) {
+        SearchRequest searchRequest = queryBuilder.build(request, keyword);
         long start = System.currentTimeMillis();
         SearchResponse response = esClient.search(searchRequest);
         long queryCostMs = System.currentTimeMillis() - start;
